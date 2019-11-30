@@ -161,15 +161,13 @@ function compareSvg2Png(svg, png, expected, diff, done, msg) {
     };
     fs.readFile(svg)
         .then(function(buffer) {
-            sharp(buffer).png({
-                compressionLevel:0
-            }).toFile(png, function(err) {
+            sharp(buffer).toFile(png, function(err) {
                 if (err) {
                     ecb(err);
                 }
                 looksSame(png,expected,function (err, r) {
                     should(err).not.ok;
-                    should.ok(r.equal, msg + JSON.stringify(r.diffClusters));
+                    should.ok(r.equal, msg + JSON.stringify(r.diffClusters) + png);
                     done();
                 });
                 looksSame.createDiff({
